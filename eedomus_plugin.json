@@ -1,0 +1,155 @@
+{
+	"plugin_id": "etatmixte",
+	"name_fr": "Etat Mixte",
+	"icon": "etatmixte.png",
+	"version": "1.0",
+	"creation_date": "2018-02-21",
+	"modification_date": "2018-02-21",
+	"author": "Influman",
+	"description_fr": "Fusion, dans un seul état, d'un état actionneur et d'un état capteur",
+	"description_en": "",
+	"description_es": "",
+	"description_it": "",
+	"description_de": "",
+	"forum_link": "http://forum.eedomus.com/viewtopic.php?f=5&t=6766",
+	"parameters":
+	[
+		{
+			"parameter": "NAME", 
+			"description": "Nom de l'état mixte",
+			"xtype": "textfield",
+			"default_value": "Etat Mixte #1",
+			"field": "width:200, allowBlank:false"
+		},
+		{
+			"parameter": "line1",
+			"description": "",
+			"xtype": "displayfield",
+			"field": "style: 'padding: 3px;', value: '......................................'"
+			},	
+		{
+			"parameter": "CAPTEUR", 
+			"description": "Nom du capteur",
+			"xtype": "textfield",
+			"default_value": "Capteur",
+			"field": "width:100, allowBlank:false"
+		},	
+		{
+			"parameter": "capteur_api",
+			"description": "Périphérique capteur",
+			"xtype": "combo",
+			"field": "store : getCombo('/json/list_all.php?value_type=list'), displayField: 'label', valueField: 'id', typeAhead: true, forceSelection: true, triggerAction: 'all', selectOnFocus: true, editable: false, shadow:true, mode: 'local', width: 250, listWidth: 300, allowBlank: true"
+    },
+	{
+			"parameter": "line2",
+			"description": "",
+			"xtype": "displayfield",
+			"field": "style: 'padding: 3px;', value: '......................................'"
+			},	
+		{
+			"parameter": "ACTIONNEUR", 
+			"description": "Nom de l'actionneur",
+			"xtype": "textfield",
+			"default_value": "Actionneur",
+			"field": "width:100, allowBlank:false"
+		},	
+		{
+			"parameter": "action_api",
+			"description": "Périphérique actionneur",
+			"xtype": "combo",
+			"field": "store : getCombo('/json/list_all.php?value_type=list'), displayField: 'label', valueField: 'id', typeAhead: true, forceSelection: true, triggerAction: 'all', selectOnFocus: true, editable: false, shadow:true, mode: 'local', width: 250, listWidth: 300, allowBlank: true"
+		},
+		 {
+      "parameter": "value_State1",
+      "description": "Valeur #1",
+			"xtype": "textfield",
+			"default_value": "0",
+			"field": "width:50, allowBlank:false"
+    },
+	{
+      "parameter": "value_disp1",
+      "description": "Description Valeur #1",
+			"xtype": "textfield",
+			"default_value": "Off",
+			"field": "width:50, allowBlank:false"
+    },
+    {
+      "parameter": "value_State2",
+      "description": "Valeur #2",
+			"xtype": "textfield",
+			"default_value": "100",
+			"field": "width:50, allowBlank:false"
+    },
+	{
+      "parameter": "value_disp2",
+      "description": "Description Valeur #2",
+			"xtype": "textfield",
+			"default_value": "On",
+			"field": "width:50, allowBlank:false"
+    },
+	{
+			"parameter": "line3",
+			"description": "",
+			"xtype": "displayfield",
+			"field": "style: 'padding: 3px;', value: '......................................'"
+			},	
+	{
+			"parameter": "DISPLAY", 
+			"description": "Affichage souhaité",
+			"xtype": "combo",
+			"default_value": "0",
+            "field": "width:200, allowBlank:false, store:[['0', 'Actionneur / Capteur'], ['1', 'Capteur seul'], ['2', 'Capteur / Actionneur']], editable: false, shadow: true, triggerAction: 'all', typeAhead:true"
+        }
+	],
+	"scripts":
+	[
+		{
+			"name": "etatmixte.php"
+		}
+	],
+	"devices": 
+  [
+		
+{
+			"device_id": "etatmixte",
+			"module_id": "41",
+			"type": "http",
+			"name_fr": "plugin.parameters.NAME (etat mixte)",
+			"icon": "etatmixte.png",
+			"utilisation_id": "43",
+			"parameters":
+			{
+				"VAR1": "plugin.parameters.CAPTEUR",
+				"VAR2": "plugin.parameters.ACTIONNEUR",
+				"VAR3": "plugin.parameters.DISPLAY",
+				"value_type": "list",
+				"ignore_errors": 3,
+				"RAW_URL": "http://localhost/script/?exec=etatmixte.php&capteur=[VAR1]&actionneur=[VAR2]&capteur_api=plugin.parameters.capteur_api&actionneur_api=plugin.parameters.action_api&display=[VAR3]&value=poll",
+				"RAW_XPATH": "/ETATMIXTE/DISPLAY",
+				"POLLING": "0"
+			},
+			"values":
+			[
+				{ "value": "1", "description": "plugin.parameters.value_disp1", "icon": "etatmixte.png", "http_url": "http://localhost/script/?exec=etatmixte.php", "http_type": "GET",  "http_params": "&capteur=[VAR1]&actionneur=[VAR2]&capteur_api=plugin.parameters.capteur_api&actionneur_api=plugin.parameters.action_api&display=[VAR3]&value=plugin.parameters.value_State1" },
+				{ "value": "2", "description": "plugin.parameters.value_disp2", "icon": "etatmixte.png", "http_url": "http://localhost/script/?exec=etatmixte.php", "http_type": "GET",  "http_params": "&capteur=[VAR1]&actionneur=[VAR2]&capteur_api=plugin.parameters.capteur_api&actionneur_api=plugin.parameters.action_api&display=[VAR3]&value=plugin.parameters.value_State2" }
+		]
+    }
+  ],
+  "rules": [
+      {
+        "name_fr": "plugin.parameters.NAME - MàJ EtatMixte",
+        "criterias":
+        [
+          { "device_id": "plugin.parameters.capteur_api", "type": "c"  },
+		  { "device_id": "plugin.parameters.action_api", "type": "c" , "operation": "OR" }
+		],
+        "actions":
+        [
+          { "device_id": "plugin.devices.etatmixte", "type": "direct", "action": "update" }
+        ]
+      }
+	]
+}
+
+
+
